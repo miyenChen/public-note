@@ -6,6 +6,7 @@ tags:
 ---
 
 ## 基本觀念
+- 本地保存順序 `git add .` > `git commit -m "訊息"`
 - 實作新功能時，一定要在分支上進行
 - [Git Flow](https://enginebai.medium.com/git-flow-60b9466e9942)
 ###### 圖形化工具
@@ -14,13 +15,19 @@ tags:
 
 ![[Git commit type]]
 
-
-## 新建
+## 設定
+```git
+git config --global user.name "暱稱"
+git config --global user.email 你的email@example.com
+```
+## 新建 init
 ### 當前目錄新建 git庫
 ```git
 git init
 ```
-## 暫存檔案
+
+假如要從遠端資料庫[複製整個專案到本地](#複製遠端github資料庫至本地)
+## 暫存檔案 stash
 遇到事情需要臨時切換分支，或是還沒有做一個段落不想要git commit留下紀錄時
 ### 先確保文件能全部暫存
 如果有新文件還沒被追蹤過  (git stash後工作目錄還有殘留的文件時)
@@ -53,7 +60,23 @@ git stash apply
 ```git
 git stash drop
 ```
-## 本地
+
+## 保存紀錄 commit
+### 暫存區
+先將紀錄添加至暫存區之後才能做保存動作
+```git 
+// 添加所有檔案至暫存區
+git add .
+
+// 添加指定檔案至暫存區
+git add a.txt b.txt
+```
+
+### 紀錄 commit
+```git 
+git commit -m "提交訊息的內容"
+```
+## 本地問題
 ### LF / CRLF 轉換的錯誤訊息 - `LF will be replaced by CRLF`
 
 ```git
@@ -93,8 +116,19 @@ git log
 ```
 用`Q`離開
 ## 遠端
-### 拉取遠端的變化和本地分支合併
+### 連線至遠端github資料庫
+```git 
+git remote add origin https://github.com/miyenChen/public-note.git
 ```
+
+### 複製遠端github資料庫至本地
+假如本地完全沒有此專案
+```git 
+git clone
+```
+### 拉取遠端的變化和本地分支合併
+本地已經有此專案，並且已經連接過遠端地址
+```git
 git pull
 ```
 ### 確認本地分支配對的預設遠端分支
@@ -104,8 +138,9 @@ git config --get branch.main.merge
 - 確認本地 `main` 這個分支配對到遠端哪一個分支
 - 返回 `refs/heads/main` 代表默認配段的遠端分支是 `main`
 - 返回 `refs/heads/其他分支` ，代表本地分支連接的遠端分支不同名稱，可[更改](#推送到遠端分支，並建立/更改連結)
-### ### 推送到遠端分支，並建立/更改連結
+### 推送到遠端分支，並建立/更改連結
 [設定upstream的影響](https://stackoverflow.com/questions/37770467/why-do-i-have-to-git-push-set-upstream-origin-branch)
+
 > **使用情景**
 > - 已有本地分支，但還沒跟遠端建立連結，想以後推送都不用指定遠程分支時
 > - 已有本地分支，想和遠端已有的分支建立連結時
